@@ -1,0 +1,128 @@
+{
+    "rules": [
+      {
+        "dtype": "numerical continuous",
+        "methods": [
+          "count",
+          "mean",
+          "median",
+          "mode",
+          "minimum",
+          "maximum",
+          "range",
+          "variance",
+          "standard deviation",
+          "quartiles",
+          "IQR",
+          "skewness",
+          "kurtosis"
+        ],
+        "visualization": {
+          "histogram": "Select if the distribution is approximately symmetric and skewness is low.",
+          "box plot": "Select if outliers or moderate to high skewness are detected.",
+          "density plot": "Select if the sample size is large and smooth distribution estimation is required.",
+          "violin plot": "Select if multimodal distribution or outliers are detected, combining density and spread.",
+          "Q-Q plot": "Select if skewness and kurtosis suggest checking normality visually."
+        },
+        "inferential": {
+        "tests": [
+          "one-sample t-test",
+          "one-sample z-test",
+          "confidence interval",
+          "Shapiro-Wilk test"
+        ],
+        "selection_criteria": [
+          "Step 1: Perform Shapiro-Wilk test first to assess normality.",
+          "Step 2: If Shapiro-Wilk p-value > 0.05, proceed with one-sample t-test or z-test based on sample size and known/unknown population variance.",
+          "Step 3: If Shapiro-Wilk p-value <= 0.05, data is not normal. Consider non-parametric alternatives if available.",
+          "Step 4: Confidence intervals can be used regardless of normality but interpret cautiously if the distribution is highly skewed."
+        ]
+        }
+      },
+      {
+        "dtype": "numerical discrete",
+        "methods": [
+          "count",
+          "mean",
+          "median",
+          "mode",
+          "minimum",
+          "maximum",
+          "range",
+          "variance",
+          "standard deviation",
+          "quartiles",
+          "IQR",
+          "skewness",
+          "kurtosis",
+          "frequency distribution"
+        ],
+        "visualization": {
+          "bar chart": "Select to display frequency of each discrete value clearly.",
+          "histogram": "Select to show distribution pattern of discrete values when many unique values exist.",
+          "dot plot": "Select for simple display of individual data points when sample size is small."
+        },
+        "inferential": {
+        "tests": [
+          "one-sample t-test",
+          "chi-square goodness of fit",
+          "Poisson test"
+        ],
+        "selection_criteria": [
+          "Step 1: Determine if testing mean against known value or testing distribution pattern.",
+          "Step 2: Use one-sample t-test for testing mean of discrete variable against known value.",
+          "Step 3: Use chi-square goodness of fit if testing whether data follows expected discrete distribution.",
+          "Step 4: Use Poisson test specifically for count data to test if it follows Poisson distribution."
+        ]
+        }
+      },
+      {
+        "dtype": "categorical nominal",
+        "methods": [
+          "frequency",
+          "mode",
+          "proportion"
+        ],
+        "visualization": {
+          "bar chart": "Select to compare frequencies across categories effectively.",
+          "pie chart": "Select to show proportional breakdown when number of categories is small (<=5).",
+          "frequency table": "Select for tabular display of counts and percentages."
+        },
+        "inferential": {
+        "tests": [
+          "chi-square goodness of fit",
+          "binomial test"
+        ],
+        "selection_criteria": [
+          "Step 1: Use chi-square goodness of fit if testing whether observed proportions match expected proportions across multiple categories.",
+          "Step 2: Use binomial test specifically for binary outcomes when testing a single proportion.",
+          "Step 3: Ensure expected frequencies are >5 for chi-square test validity."
+        ]
+        }
+      },
+      {
+        "dtype": "categorical ordinal",
+        "methods": [
+          "median",
+          "mode",
+          "quartiles",
+          "frequency distribution"
+        ],
+        "visualization": {
+          "bar chart": "Select to display ordered categories while maintaining sequence.",
+          "ordered bar chart": "Select to emphasize the natural ordering of categories."
+        },
+        "inferential": {
+        "tests": [
+          "Kolmogorov-Smirnov test",
+          "runs test"
+        ],
+        "selection_criteria": [
+          "Step 1: Use Kolmogorov-Smirnov test to assess if data follows expected distribution pattern.",
+          "Step 2: Use runs test to check for randomness in the ordered sequence.",
+          "Step 3: Ensure sufficient sample size for meaningful results."
+        ]
+        }
+      }
+    ]
+  }

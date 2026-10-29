@@ -1,0 +1,80 @@
+                                  +--------------------------+
+                                  |   univariate_agent.py    |  (The Main Runner)
+                                  +-------------+------------+
+                                                |
+                                                | 1. Loads Knowledge
+                                                |
+                                 +--------------+--------------+
+                                 |                             |
+                   +-------------v-------------+   +-------------v--------------+
+                   |   univariate_rules.json   |   |   method_details.json    |
+                   +---------------------------+   +----------------------------+
+                                 |                             |
+                                 | 2. Injects into Prompt      |
+                                 v                             v
+                   +-------------------------------------------------------------+
+                   |                    univariate_agent_prompt.py               |
+                   | (Creates the massive prompt with all rules and instructions)|
+                   +-------------------------------------------------------------+
+                                                |
+                                                | 3. Sends full prompt to Gemini LLM
+                                                v
+                                     +----------+----------+
+                                     |      Gemini LLM     | (The Brain)
+                                     +----------+----------+
+                                                |
+                                                | 4. LLM decides on an action, e.g., "call plot_histogram"
+                                                |
+                                 +--------------+--------------+
+                                 |                             |
+                   +-------------v-------------+   +-----------v-----------+
+                   |   univariate_agent.py     |   |   univariate_tools.py |
+                   | (Parses the LLM's action) |   | (Contains the actual  |
+                   +-------------+-------------+   | Python code to plot)  |
+                                 |                 +-----------------------+
+                                 |
+                                 | 5. Executes the Python function
+                                 v
+                       +---------+---------+
+                       |    plots/         | (The function saves a file here)
+                       | histogram_age.png |
+                       +-------------------+
+                                 |
+                                 | 6. The function's result (Observation) is sent
+                                 |    back to the start of the loop (Step 3) to inform
+                                 |    the LLM's next decision.
+                                 +------------------------------------------->
+
+
+
+**Step-by-Step Explanation:**
+
+1.  **Loading Knowledge (`univariate_agent.py`):** Your main script starts by opening and reading the raw text from `univariate_rules.json` and `method_details.json`. It stores this text in variables.
+2.  **Building the Brain (`univariate_agent_prompt.py`):** The script calls the `get_univariate_agent_prompt()` function. This function takes the JSON text and uses an f-string to embed it directly into the giant prompt template. The result is one enormous string that contains all the rules, instructions, and workflow steps.
+3.  **The Conversation (`univariate_agent.py` -> Gemini):** This massive prompt is sent to the Gemini LLM. The LLM now has all the context it needs: its persona, its knowledge base, its available tools, the format it must use, and the specific task from the orchestrator.
+4.  **Reasoning and Action (Gemini -> `univariate_agent.py`):** The LLM follows your instructions. It "thinks" (e.g., "The task is to analyze 'age'. My workflow says I must first call `get_column_dtype`.") and then formulates an `action` in the required JSON format. It sends this JSON back to your script.
+5.  **Execution (`univariate_agent.py` -> `univariate_tools.py`):** Your `run` loop parses this JSON. It sees `tool_name: "get_column_dtype"`. It looks up this name in the `AVAILABLE_TOOLS` dictionary (which you defined in `univariate_tools.py`) and finds the corresponding Python function. It then calls that function.
+6.  **Observation and Loop (`univariate_tools.py` -> `univariate_agent.py`):** The Python function runs (e.g., it calculates the data type) and returns a result (e.g., `{"dtype": "numerical continuous"}`). This result is called the "Observation." Your `run` loop adds this observation to the conversation history and sends the *entire updated history* back to the Gemini LLM (Step 3).
+7.  **The Next Step:** The LLM now sees the observation. Its next "thought" will be, "Okay, the dtype is 'numerical continuous'. I will now look at my `RULES` for that dtype. It says I should get descriptive stats and check for normality. My next action will be to call `calculate_descriptive_stats`." The loop continues until the LLM decides to call the `finish` action.
+
+---
+
+### 4. How do I check whether it is giving the right output?
+
+This is the testing and validation phase. You check the output at several levels:
+
+1.  **Watch the Console Output (The "Thoughts"):** When you run `python univariate_agent.py`, pay close attention to the "Thought:" printed at each step. This is the most important part for debugging.
+    *   **Is it following the workflow?** Does it call `get_column_dtype` first?
+    *   **Is it referencing the rules?** Does its thought process mention the `RULES` or `selection_criteria`? A good thought would be: `"Thought: The observation shows skewness is 2.1, which is high. My RULES for visualization say to use a box plot in cases of high skewness. Therefore, my next action is to call plot_boxplot."`
+    *   **Is it making logical choices?** If the dtype is "categorical", does it correctly choose to call `calculate_frequency_analysis` instead of `calculate_descriptive_stats`?
+
+2.  **Inspect the Final `AnalysisState`:** At the very end, the script prints the final state object.
+    *   **Check `state.results`:** Are the results populated correctly? Is there an entry for each column you analyzed? Does it contain the stats you expect?
+    *   **Check `state.artifacts`:** Does the list contain paths to the plot files?
+
+3.  **Look at the Actual Artifacts:**
+    *   Go into the `plots/` directory.
+    *   Open the `.png` files. Do they look correct? Does the histogram for 'age' actually show the distribution of the age data?
+
+By checking these three things—the agent's reasoning (thoughts), its structured output (`AnalysisState`), and its physical output (plots)—you can be confident that it's working exactly as you designed it to.
+                                 

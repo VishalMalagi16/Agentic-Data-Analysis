@@ -1,0 +1,90 @@
+{
+  "methods": {
+    "pearson_correlation": {
+      "description": "Calculate Pearson correlation coefficient between two numerical variables",
+      "implementation": "1. Calculate mean of x and y\n2. Calculate covariance: sum((x - mean_x) * (y - mean_y)) / (n-1)\n3. Calculate standard deviations of x and y\n4. Correlation = covariance / (std_x * std_y)\n5. Calculate p-value using t-distribution with n-2 degrees of freedom\n6. Return JSON: {\"correlation\": value, \"p_value\": value}"
+    },
+    "spearman_correlation": {
+      "description": "Calculate Spearman's rank correlation coefficient",
+      "implementation": "1. Convert x and y to ranks\n2. Calculate Pearson correlation on ranks\n3. Calculate p-value using t-distribution\n4. Return JSON: {\"correlation\": value, \"p_value\": value}"
+    },
+    "linear_regression": {
+      "description": "Perform linear regression analysis",
+      "implementation": "1. Calculate mean of x and y\n2. Calculate slope: sum((x - mean_x) * (y - mean_y)) / sum((x - mean_x)^2)\n3. Calculate intercept: mean_y - slope * mean_x\n4. Calculate R-squared: 1 - (sum((y - predicted)^2) / sum((y - mean_y)^2))\n5. Calculate standard error of regression\n6. Calculate p-values for coefficients using t-distribution\n7. Return JSON: {\"slope\": value, \"intercept\": value, \"r_squared\": value, \"std_error\": value, \"p_value\": value}"
+    },
+    "t_test": {
+      "description": "Perform t-test between two groups",
+      "implementation": "1. Calculate means of both groups\n2. Calculate pooled standard deviation\n3. Calculate t-statistic: (mean1 - mean2) / (pooled_std * sqrt(1/n1 + 1/n2))\n4. Calculate degrees of freedom: n1 + n2 - 2\n5. Calculate p-value using t-distribution\n6. Return JSON: {\"t_statistic\": value, \"p_value\": value, \"df\": value}"
+    },
+    "anova": {
+      "description": "Perform one-way ANOVA test",
+      "implementation": "1. Calculate overall mean\n2. Calculate between-group sum of squares\n3. Calculate within-group sum of squares\n4. Calculate F-statistic: (between_SS/df_between) / (within_SS/df_within)\n5. Calculate p-value using F-distribution\n6. Return JSON: {\"f_statistic\": value, \"p_value\": value, \"df_between\": value, \"df_within\": value}"
+    },
+    "chi_square_test": {
+      "description": "Perform chi-square test of independence",
+      "implementation": "1. Create contingency table\n2. Calculate expected frequencies\n3. Calculate chi-square statistic: sum((observed - expected)^2 / expected)\n4. Calculate degrees of freedom: (rows-1) * (cols-1)\n5. Calculate p-value using chi-square distribution\n6. Return JSON: {\"chi_square\": value, \"p_value\": value, \"df\": value}"
+    },
+    "descriptive_stats": {
+      "description": "Calculate descriptive statistics for numerical data",
+      "implementation": "1. Calculate mean\n2. Calculate median\n3. Calculate standard deviation\n4. Calculate quartiles (Q1, Q2, Q3)\n5. Calculate minimum and maximum\n6. Return JSON: {\"mean\": value, \"median\": value, \"std\": value, \"q1\": value, \"q3\": value, \"min\": value, \"max\": value}"
+    },
+    "frequency_analysis": {
+      "description": "Perform frequency analysis for categorical data",
+      "implementation": "1. Count frequency of each category\n2. Calculate percentage of each category\n3. Calculate cumulative frequency\n4. Return JSON: {\"frequencies\": {\"category1\": count1, \"category2\": count2}, \"percentages\": {\"category1\": pct1, \"category2\": pct2}}"
+    },
+    "mann_whitney_u": {
+      "description": "Perform Mann-Whitney U test for comparing two independent samples",
+      "implementation": "1. Rank all the values from both groups together. 2. Calculate the sum of ranks for each group. 3. Use the Mann-Whitney U formula to compute U-statistic. 4. Calculate the p-value using U and sample sizes. 5. Return JSON: {\"u_statistic\": value, \"p_value\": value}"
+    },
+    "fishers_exact_test": {
+      "description": "Perform Fisher's exact test for small-sample categorical data",
+      "implementation": "1. Construct a 2x2 contingency table. 2. Calculate the exact p-value for independence. 3. Return JSON: {\"p_value\": value, \"odds_ratio\": value}"
+    },
+    "count": {
+      "description": "Count the number of non-missing values in the data",
+      "implementation": "1. Remove missing values from the data. 2. Count the number of remaining values. 3. Return JSON: {\"count\": value}"
+    },
+    "minimum": {
+      "description": "Find the minimum value in the data",
+      "implementation": "1. Remove missing values from the data. 2. Identify the smallest value. 3. Return JSON: {\"minimum\": value}"
+    },
+    "maximum": {
+      "description": "Find the maximum value in the data",
+      "implementation": "1. Remove missing values from the data. 2. Identify the largest value. 3. Return JSON: {\"maximum\": value}"
+    },
+    "quartiles": {
+      "description": "Calculate the first (Q1), second (Q2, median), and third (Q3) quartiles of the data",
+      "implementation": "1. Remove missing values from the data. 2. Sort the data in ascending order. 3. Calculate Q1 (25th percentile), Q2 (50th percentile, median), and Q3 (75th percentile). 4. Return JSON: {\"q1\": value, \"q2\": value, \"q3\": value}"
+    },
+    "IQR": {
+      "description": "Calculate the interquartile range (IQR) of the data",
+      "implementation": "1. Remove missing values from the data. 2. Calculate Q1 (25th percentile) and Q3 (75th percentile). 3. Compute IQR = Q3 - Q1. 4. Return JSON: {\"iqr\": value}"
+    },
+    "skewness": {
+      "description": "Calculate the skewness of the data distribution",
+      "implementation": "1. Remove missing values from the data. 2. Calculate the mean and standard deviation. 3. Compute skewness using the formula: skewness = (1/n) * sum(((x_i - mean)/std)^3). 4. Return JSON: {\"skewness\": value}"
+    },
+    "kurtosis": {
+      "description": "Calculate the kurtosis of the data distribution",
+      "implementation": "1. Remove missing values from the data. 2. Calculate the mean and standard deviation. 3. Compute kurtosis using the formula: kurtosis = (1/n) * sum(((x_i - mean)/std)^4) - 3. 4. Return JSON: {\"kurtosis\": value}"
+    },
+    "frequency": {
+      "description": "Calculates the frequency of each unique value in a categorical dataset.",
+      "implementation": "Count the occurrences of each unique value in the provided data. Return the counts for each category.",
+      "parameters": [],
+      "returns": "A JSON object with results and interpretation."
+    },
+    "mode": {
+      "description": "Calculates the mode(s) of a dataset.",
+      "implementation": "Find the value(s) that appear most frequently in the data. It is possible to have one or more modes.",
+      "parameters": [],
+      "returns": "A JSON object with the mode(s) and interpretation."
+    },
+    "cramers_v": {
+      "description": "Calculates Cramér's V to measure the association between two categorical variables.",
+      "implementation": "1. Calculate the Chi-Square statistic. 2. Calculate Cramér's V using the formula: V = sqrt(chi_square / (n * (min(k, r) - 1))), where n is the total number of observations, k is the number of columns, and r is the number of rows. 3. Return the value of Cramér's V and its interpretation.",
+      "parameters": [],
+      "returns": "A JSON object with the Cramér's V statistic and interpretation."
+    }
+  }
+} 

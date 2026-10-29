@@ -1,0 +1,20 @@
+# backend/Dockerfile
+
+FROM python:3.10-slim
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy requirements first to leverage Docker's build cache
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the entire contents of the build context (the 'backend' directory)
+# into the container's WORKDIR (/app)
+COPY . .
+
+# Expose the port the FastAPI application will run on
+EXPOSE 8000
+
+# Command to run the application, assuming your FastAPI instance is in main.py
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

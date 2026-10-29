@@ -1,0 +1,22 @@
+# FastAPI and Web Server
+fastapi
+uvicorn[standard]
+
+# Data Science & Analysis
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+statsmodels
+missingno
+
+# Cloud & API
+google-generativeai
+
+# Services & Utilities
+redis
+docker
+pydantic
+sse-starlette
+python-multipart

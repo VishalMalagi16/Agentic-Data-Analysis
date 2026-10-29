@@ -1,0 +1,14 @@
+# Use a slim, secure base image
+FROM python:3.10-slim
+
+# Install common data science libraries
+RUN pip install --no-cache-dir pandas numpy matplotlib seaborn scikit-learn
+
+# Create a dedicated, non-root user for executing code
+RUN useradd --create-home --shell /bin/bash sandboxuser
+USER sandboxuser
+
+# Set the working directory
+WORKDIR /app
+
+# The container will be started with a command, so no CMD or ENTRYPOINT is needed here.

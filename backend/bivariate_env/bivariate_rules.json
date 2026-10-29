@@ -1,0 +1,100 @@
+{
+  "rules": [
+    {
+      "dtype_combo": "numerical-numerical",
+      "methods": [
+        "pearson_correlation",
+        "spearman_correlation",
+        "linear_regression"
+      ],
+      "visualization": {
+        "scatter plot": "Use when exploring relationships or trends between two continuous variables.",
+        "heatmap": "Use to visualize correlation matrix for multiple numerical variables."
+      },
+      "inferential": {
+        "tests": [
+          "pearson_correlation",
+          "spearman_correlation",
+          "linear_regression"
+        ],
+        "selection_criteria": [
+          "Step 1: Use Pearson correlation when both variables are normally distributed.",
+          "Step 2: Use Spearman correlation if data is ordinal or non-parametric assumptions hold.",
+          "Step 3: Use linear regression when modeling the relationship or prediction between two numerical variables."
+        ]
+      }
+    },
+    {
+      "dtype_combo": "numerical-categorical",
+      "methods": [
+        "t_test",
+        "anova",
+        "mann_whitney_u"
+      ],
+      "visualization": {
+        "grouped boxplot": "Use to compare the distribution of numerical values across categories.",
+        "violin plot": "Use when visualizing both distribution shape and spread across groups."
+      },
+      "inferential": {
+        "tests": [
+          "t_test",
+          "anova",
+          "mann_whitney_u"
+        ],
+        "selection_criteria": [
+          "Step 1: Use t-test for comparing two group means (binary categorical variable) with normal numerical data.",
+          "Step 2: Use ANOVA for comparing means across 3+ groups with normal numerical data.",
+          "Step 3: Use Mann-Whitney U test when normality assumption is violated or data is ordinal."
+        ]
+      }
+    },
+    {
+      "dtype_combo": "categorical-numerical",
+      "methods": [
+        "t_test",
+        "anova",
+        "mann_whitney_u"
+      ],
+      "visualization": {
+        "grouped boxplot": "Use to compare the distribution of numerical values across categories.",
+        "violin plot": "Use when visualizing both distribution shape and spread across groups."
+      },
+      "inferential": {
+        "tests": [
+          "t_test",
+          "anova",
+          "mann_whitney_u"
+        ],
+        "selection_criteria": [
+          "Step 1: Use t-test for comparing two group means (binary categorical variable) with normal numerical data.",
+          "Step 2: Use ANOVA for comparing means across 3+ groups with normal numerical data.",
+          "Step 3: Use Mann-Whitney U test when normality assumption is violated or data is ordinal."
+        ]
+      }
+    },
+    {
+      "dtype_combo": "categorical-categorical",
+      "methods": [
+        "chi_square_test",
+        "fishers_exact_test",
+        "cramers_v"
+      ],
+      "visualization": {
+        "mosaic plot": "Use to display proportions and interactions in contingency tables.",
+        "stacked bar chart": "Use to visually compare the distribution of one categorical variable across another."
+      },
+      "inferential": {
+        "tests": [
+          "chi_square_test",
+          "fishers_exact_test",
+          "cramers_v"
+        ],
+        "selection_criteria": [
+          "Step 1: Use chi-square test for large sample sizes to test independence between two categorical variables.",
+          "Step 2: Use Fisher's exact test when sample size is small or expected cell frequencies < 5.",
+          "Step 3: Use Cramér's V to measure the strength of association between two categorical variables."
+        ]
+      }
+    }
+  ]
+}

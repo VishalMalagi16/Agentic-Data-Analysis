@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      # Change context to the backend directory
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount the backend directory specifically
+      - ./backend:/app
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY} # Make sure to pass the API key
+
+  frontend:
+    build:
+      # Change context to the frontend directory
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount the frontend directory, excluding node_modules for performance
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+  redis:
+    image: "redis/redis-stack-server:latest" # Use an image with RedisJSON
+    ports:
+      - "6379:6379"
