@@ -1,3 +1,4 @@
+import { BACKEND_URL } from '@/config';
 // src/components/controls/DownloadControl.jsx
 
 "use client";
@@ -11,7 +12,7 @@ export const DownloadControl = ({ dataset }) => {
 
   const handleDownload = () => {
     // Construct the full URL to the file
-    const downloadUrl = `http://127.0.0.1:8000${dataset.url}`;
+    const downloadUrl = `${BACKEND_URL}${dataset.url}`;
     
     // Create a temporary link element to trigger the download
     const link = document.createElement('a');

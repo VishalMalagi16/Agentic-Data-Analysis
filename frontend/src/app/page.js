@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { AnalysisControls } from '@/components/controls/AnalysisControls';
 import { Dashboard } from '@/components/dashboard/Dashboard';
 import { DownloadControl } from '@/components/controls/DownloadControl';
+import { BACKEND_URL } from '@/config';
 
 export default function Home() {
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -21,7 +22,7 @@ export default function Home() {
   const startAnalysisStream = (sid) => {
     if (eventSourceRef.current) eventSourceRef.current.close();
     
-    const es = new EventSource(`http://127.0.0.1:8000/session/stream/${sid}`);
+    const es = new EventSource(`${BACKEND_URL}/session/stream/${sid}`);
     eventSourceRef.current = es;
 
     es.onopen = () => {
@@ -100,7 +101,7 @@ export default function Home() {
     formData.append('file', file);
     
     try {
-      const response = await fetch('http://127.0.0.1:8000/session/start', { method: 'POST', body: formData });
+      const response = await fetch(`${BACKEND_URL}/session/start`, { method: 'POST', body: formData });
       if (!response.ok) throw new Error("Failed to start session.");
       const result = await response.json();
       setSessionId(result.session_id);
@@ -121,7 +122,7 @@ export default function Home() {
     // setDownloadableDataset(null); 
     
     try {
-      const response = await fetch('http://127.0.0.1:8000/session/analyze', {
+      const response = await fetch(`${BACKEND_URL}/session/analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ session_id: sessionId, prompt: prompt }),

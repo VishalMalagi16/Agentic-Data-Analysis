@@ -1,3 +1,4 @@
+import { BACKEND_URL } from '@/config';
 // frontend/components/dashboard/DashboardCard.jsx
 
 const CardContent = ({ card }) => {
@@ -6,7 +7,7 @@ const CardContent = ({ card }) => {
         return (
           <div className="p-4 bg-gray-50 rounded-b-lg">
             <img
-              src={`http://127.0.0.1:8000${card.path}`} // Connects to your FastAPI static files
+              src={`${BACKEND_URL}${card.path}`} // Connects to your FastAPI static files
               alt={card.title || 'Analysis Plot'}
               className="w-full h-auto rounded-md border border-gray-200"
             />
