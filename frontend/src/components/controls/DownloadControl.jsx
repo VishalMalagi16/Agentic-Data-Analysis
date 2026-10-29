@@ -1,8 +1,6 @@
-import { BACKEND_URL } from '@/config';
-// src/components/controls/DownloadControl.jsx
-
 "use client";
 
+import { BACKEND_URL } from '@/config';
 import { FiDownload } from 'react-icons/fi';
 
 export const DownloadControl = ({ dataset }) => {
